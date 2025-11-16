@@ -1,6 +1,6 @@
-const UserModel = require("../Model/userModel")
+const UserModel = require("../Models/userModel")
 
-const {getAllFactory, createFactory, getFactoryById, deleteByFactoryId} = require("../utility/curdFactory")
+const {getAllFactory, createFactory, getFactoryById, deleteByFactoryId} = require("../Utility/curdFactory")
 
 
 const getAlluser = getAllFactory(UserModel)
