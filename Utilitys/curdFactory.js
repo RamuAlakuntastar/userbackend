@@ -1,93 +1,84 @@
-
-
-
-
-const getAllFactory = (factorymodel) => {
-    return async function(req, res) {
-    try {
-        const userDetails = req.body
-        const user = await factorymodel.find(userDetails)
-        if(!user) {
-            throw new Error("user not found")
+// GET ALL DOCUMENTS
+const getAllFactory = (Model) => {
+    return async (req, res) => {
+        try {
+            const docs = await Model.find();
+            res.status(200).json({
+                status: "success",
+                data: docs
+            });
+        } catch (e) {
+            res.status(500).json({ status: "failure", message: e.message });
         }
-        res.status(201).json({
-            status:"success",
-            message: user
-        })
-    }catch(e) {
-        res.status(500).json({
-            status: "failure",
-            message: e.message
-        })
-    }
-} 
-}
+    };
+};
 
-
-const createFactory = (factorymodel) => {
-    return  async function(req, res) {
-    try{
-        const userDetails = req.body
-        const user = await factorymodel.create(userDetails)
-        res.status(201).json({
-            status:"success",
-            message:userDetails
-        })
-    }catch(e) {
-        res.status(500).json({
-            status:"failure",
-            message: e.message
-        })
-    }
-}
-}
-
-const getFactoryById = (factorymodel) => {
-    return async function(req, res) {
-    try {
-        const {userId} = req.params 
-        const user = await factorymodel.findByIdAndDelete(userId)
-        if(!user) {
-            throw new Error(`${user} not found`)
-        }
-        res.status(201).json({
-            status: "success",
-            message:user
-        })
-    }catch(e) {
-        res.status(500).json({
-            status:"failure",
-            message: e.message
-        })
-    }
-}
-
-}
-const deleteByFactoryId = (factorymodel) => { 
-    return async function(req, res) {
-        try{
-            const {userId} = req.params 
-            const userdelete = await factorymodel.deleteById(userId)
-            if(!userdelete){
-                throw new Error(`User with ID ${userId} not found`)
-            }
+// CREATE DOCUMENT
+const createFactory = (Model) => {
+    return async (req, res) => {
+        try {
+            const doc = await Model.create(req.body);
             res.status(201).json({
                 status: "success",
-                message: user
-            })
-        }catch(e) {
-            res.status(500).json({
-                status: "failure",
-                message:e.message
-            })
-     }
- }
-}
+                data: doc
+            });
+        } catch (e) {
+            res.status(500).json({ status: "failure", message: e.message });
+        }
+    };
+};
 
-module.exports = {getAllFactory, createFactory, getFactoryById, deleteByFactoryId}
-      
+// GET DOCUMENT BY ID
+const getFactoryById = (Model) => {
+    return async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const doc = await Model.findById(userId);
 
+            if (!doc) {
+                return res.status(404).json({
+                    status: "failure",
+                    message: "Document not found"
+                });
+            }
 
+            res.status(200).json({
+                status: "success",
+                data: doc
+            });
+        } catch (e) {
+            res.status(500).json({ status: "failure", message: e.message });
+        }
+    };
+};
 
+// DELETE DOCUMENT BY ID
+const deleteByFactoryId = (Model) => {
+    return async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const deletedDoc = await Model.findByIdAndDelete(userId);
 
+            if (!deletedDoc) {
+                return res.status(404).json({
+                    status: "failure",
+                    message: `Document with ID ${userId} not found`
+                });
+            }
 
+            res.status(200).json({
+                status: "success",
+                message: "Document deleted successfully"
+            });
+        } catch (e) {
+            res.status(500).json({ status: "failure", message: e.message });
+        }
+    };
+};
+
+module.exports = {
+    getAllFactory,
+    createFactory,
+    getFactoryById,
+    deleteByFactoryId
+};
