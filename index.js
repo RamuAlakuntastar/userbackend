@@ -11,8 +11,8 @@ const cors = require("cors");
 
 
 app.use(cors({
-    origin: "http://localhost:3001",
-    credentials: true // allow cookies/jwt
+    origin: "https://spicymeal-47pdtqo02-ramualakuntastars-projects.vercel.app",
+    credentials: true 
 }));
 app.use(express.json());
 app.use(cookieParser());
