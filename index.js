@@ -11,7 +11,7 @@ const cors = require("cors");
 // ------------------------------------
 app.use(cors({
     origin: [
-        "https://spicymeal-47pdtqo02-ramualakuntastars-projects.vercel.app",  // Vercel frontend
+        "https://spicymeal-git-main-ramualakuntastars-projects.vercel.app",  
         "http://localhost:3000",  // Local frontend
         "http://localhost:3001"   // Alternative local frontend
     ],
